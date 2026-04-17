@@ -47,30 +47,30 @@ export default function HelpPage() {
         </motion.div>
 
         {/* FAQs */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.1 }}
           className="space-y-4 mb-16"
         >
           {FAQs.map((faq, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="bg-white dark:bg-[#111218] border border-gray-100 dark:border-[#1a1c23] rounded-2xl overflow-hidden shadow-sm"
             >
-              <button 
+              <button
                 className="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
               >
                 <span className="font-semibold text-gray-900 dark:text-white pr-4">{faq.question}</span>
-                <motion.div 
+                <motion.div
                   animate={{ rotate: openIndex === index ? 45 : 0 }}
                   className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-50 dark:bg-[#1a1c23] flex items-center justify-center"
                 >
                   <Plus className="w-4 h-4 text-gray-500" />
                 </motion.div>
               </button>
-              
+
               <AnimatePresence>
                 {openIndex === index && (
                   <motion.div
@@ -90,7 +90,7 @@ export default function HelpPage() {
         </motion.div>
 
         {/* Still Need Help Block */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -101,7 +101,21 @@ export default function HelpPage() {
             Our luxury concierge team is ready to assist you with styling, order inquiries, and technical support.
           </p>
           <Link href="/contact">
-            <Button size="lg" className="bg-white text-black dark:bg-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-800">
+            <Button
+              size="lg"
+              className="
+    w-full sm:w-auto flex items-center gap-2
+
+    !bg-[#F8F5F2] !text-black
+    dark:!bg-[#F8F5F2] dark:!text-black
+
+    hover:!bg-[#F8F5F2] hover:!text-black
+    active:!bg-[#F8F5F2] active:!text-black
+    focus:!bg-[#F8F5F2] focus:!text-black
+
+    !transition-none !shadow-none
+  "
+            >
               Contact Concierge
             </Button>
           </Link>
