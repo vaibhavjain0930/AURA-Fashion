@@ -35,7 +35,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-[#fafafa] dark:bg-[#090a0f]">
+    <div className="min-h-screen pt-32 pb-24 bg-background">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
@@ -45,23 +45,23 @@ export default function ProfilePage() {
           className="flex flex-col md:flex-row items-center md:items-start gap-8 mb-16"
         >
           {/* Avatar Profile Image using First Name Initial */}
-          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 text-white dark:text-gray-900 flex items-center justify-center text-5xl font-serif font-bold shadow-xl flex-shrink-0">
+          <div className="w-32 h-32 rounded-full bg-[var(--text-primary)] text-inverse flex items-center justify-center text-5xl font-serif font-bold shadow-xl flex-shrink-0">
             {user.firstName?.charAt(0).toUpperCase()}
           </div>
           
           <div className="text-center md:text-left flex-1">
-            <h1 className="text-4xl font-serif font-bold tracking-tight mb-2">
+            <h1 className="text-4xl font-serif font-bold text-primary tracking-tight mb-2">
               Welcome, {user.firstName} {user.lastName}
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 font-light mb-6">
+            <p className="text-secondary font-light mb-6">
               Manage your personal details and view your exclusive orders.
             </p>
             <div className="flex flex-wrap justify-center md:justify-start gap-3">
-              <span className="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 text-sm flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-gray-400" /> Default Address Set
+              <span className="px-4 py-2 rounded-full border border-border text-primary text-sm flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-muted" /> Default Address Set
               </span>
-              <span className="px-4 py-2 rounded-full border border-gray-200 dark:border-gray-800 text-sm flex items-center gap-2">
-                <CreditCard className="w-4 h-4 text-gray-400" /> Payment Saved
+              <span className="px-4 py-2 rounded-full border border-border text-primary text-sm flex items-center gap-2">
+                <CreditCard className="w-4 h-4 text-muted" /> Payment Saved
               </span>
             </div>
           </div>
@@ -80,23 +80,23 @@ export default function ProfilePage() {
             transition={{ delay: 0.1 }}
             className="lg:col-span-1 space-y-6"
           >
-            <div className="bg-white dark:bg-[#111218] p-6 rounded-2xl border border-gray-100 dark:border-[#1a1c23]">
-              <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+            <div className="bg-card p-6 rounded-2xl border border-border">
+              <h3 className="text-lg text-primary font-semibold mb-6 flex items-center gap-2">
                 Personal Information
               </h3>
               
               <div className="space-y-4 text-sm">
                 <div>
-                  <span className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Full Name</span>
-                  <span className="font-medium text-gray-900 dark:text-white">{user.firstName} {user.lastName}</span>
+                  <span className="block text-xs uppercase tracking-widest text-secondary mb-1">Full Name</span>
+                  <span className="font-medium text-primary">{user.firstName} {user.lastName}</span>
                 </div>
-                <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <span className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Email Address</span>
-                  <span className="font-medium text-gray-900 dark:text-white">{user.email}</span>
+                <div className="pt-4 border-t border-border">
+                  <span className="block text-xs uppercase tracking-widest text-secondary mb-1">Email Address</span>
+                  <span className="font-medium text-primary">{user.email}</span>
                 </div>
-                <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
-                  <span className="block text-xs uppercase tracking-widest text-gray-500 mb-1">Phone Number</span>
-                  <span className="font-medium text-gray-900 dark:text-white">{user.phone}</span>
+                <div className="pt-4 border-t border-border">
+                  <span className="block text-xs uppercase tracking-widest text-secondary mb-1">Phone Number</span>
+                  <span className="font-medium text-primary">{user.phone}</span>
                 </div>
               </div>
 
@@ -114,38 +114,38 @@ export default function ProfilePage() {
             className="lg:col-span-2"
           >
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-serif font-bold flex items-center gap-3">
+              <h2 className="text-2xl font-serif font-bold flex items-center gap-3 text-primary">
                 <Package className="w-6 h-6" /> Order History
               </h2>
             </div>
             
             {orders.length === 0 ? (
-              <div className="bg-white dark:bg-[#111218] p-10 rounded-2xl border border-gray-100 dark:border-[#1a1c23] text-center">
-                <Package className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No Orders Yet</h3>
-                <p className="text-gray-500 dark:text-gray-400 font-light mb-6">You haven't placed any orders with AURA yet.</p>
+              <div className="bg-card p-10 rounded-2xl border border-border text-center">
+                <Package className="w-12 h-12 text-muted mx-auto mb-4" />
+                <h3 className="text-lg font-semibold mb-2 text-primary">No Orders Yet</h3>
+                <p className="text-secondary font-light mb-6">You haven't placed any orders with AURA yet.</p>
                 <Button onClick={() => router.push('/')}>Start Shopping</Button>
               </div>
             ) : (
               <div className="space-y-6">
                 {orders.map((order) => (
-                  <div key={order.id} className="bg-white dark:bg-[#111218] rounded-2xl border border-gray-100 dark:border-[#1a1c23] overflow-hidden group">
-                    <div className="p-6 border-b border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-black/20 flex flex-wrap justify-between items-center gap-4">
+                  <div key={order.id} className="bg-card rounded-2xl border border-border overflow-hidden group">
+                    <div className="p-6 border-b border-border bg-background flex flex-wrap justify-between items-center gap-4">
                       <div>
-                        <span className="text-xs font-semibold uppercase tracking-widest text-gray-500 block mb-1">Order ID</span>
-                        <span className="font-mono text-sm tracking-tight">{order.id}</span>
+                        <span className="text-xs font-semibold uppercase tracking-widest text-secondary block mb-1">Order ID</span>
+                        <span className="font-mono text-sm tracking-tight text-primary">{order.id}</span>
                       </div>
                       <div>
-                        <span className="text-xs font-semibold uppercase tracking-widest text-gray-500 block mb-1">Date</span>
-                        <span className="text-sm">{new Date(order.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                        <span className="text-xs font-semibold uppercase tracking-widest text-secondary block mb-1">Date</span>
+                        <span className="text-sm text-primary">{new Date(order.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                       </div>
                       <div>
-                        <span className="text-xs font-semibold uppercase tracking-widest text-gray-500 block mb-1">Total</span>
-                        <span className="text-sm font-semibold">${order.total.toFixed(2)}</span>
+                        <span className="text-xs font-semibold uppercase tracking-widest text-secondary block mb-1">Total</span>
+                        <span className="text-sm font-semibold text-primary">${order.total.toFixed(2)}</span>
                       </div>
-                      <div className="flex items-center gap-2 bg-white dark:bg-[#1a1c23] px-3 py-1.5 rounded-full shadow-sm border border-gray-100 dark:border-gray-800">
+                      <div className="flex items-center gap-2 bg-card px-3 py-1.5 rounded-full shadow-sm border border-border">
                         {getStatusIcon(order.status)}
-                        <span className="text-sm font-medium">{order.status}</span>
+                        <span className="text-sm font-medium text-primary">{order.status}</span>
                       </div>
                     </div>
                     
@@ -153,24 +153,24 @@ export default function ProfilePage() {
                       <div className="space-y-4">
                         {order.items.map(item => (
                           <div key={item.id} className="flex gap-4 items-center">
-                            <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-900 overflow-hidden flex-shrink-0">
+                            <div className="w-16 h-16 rounded-lg bg-background overflow-hidden flex-shrink-0">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <h4 className="text-sm font-semibold text-gray-900 dark:text-white truncate">{item.name}</h4>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              <h4 className="text-sm font-semibold text-primary truncate">{item.name}</h4>
+                              <p className="text-xs text-secondary mt-1">
                                 Size: {item.size} • Color: {item.color} • Qty: {item.quantity}
                               </p>
                             </div>
-                            <div className="text-sm font-medium">
+                            <div className="text-sm font-medium text-primary">
                               ${item.price.toFixed(2)}
                             </div>
                           </div>
                         ))}
                       </div>
                       
-                      <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800 flex justify-end">
-                        <Button variant="ghost" size="sm" className="flex items-center gap-1 group-hover:bg-gray-100 dark:group-hover:bg-gray-800">
+                      <div className="mt-6 pt-6 border-t border-border flex justify-end">
+                        <Button variant="ghost" size="sm" className="flex items-center gap-1 group-hover:bg-background text-primary">
                           Track Order <ChevronRight className="w-4 h-4" />
                         </Button>
                       </div>

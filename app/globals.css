@@ -1,57 +1,97 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-primary-50: #f6f6f6;
-  --color-primary-100: #e7e7e7;
-  --color-primary-200: #d1d1d1;
-  --color-primary-300: #b0b0b0;
-  --color-primary-400: #888888;
-  --color-primary-500: #6d6d6d;
-  --color-primary-600: #5d5d5d;
-  --color-primary-700: #4f4f4f;
-  --color-primary-800: #454545;
-  --color-primary-900: #3d3d3d;
-  --color-primary-950: #262626;
+  /*  PRIMARY (warm luxury palette) */
+  --color-primary-50: #fdfaf7;
+  --color-primary-100: #f6efe8;
+  --color-primary-200: #eadfd4;
+  --color-primary-300: #d8c6b6;
+  --color-primary-400: #c2a892;
+  --color-primary-500: #a98d75;
+  --color-primary-600: #8f735f;
+  --color-primary-700: #755c4c;
+  --color-primary-800: #5e4a3d;
+  --color-primary-900: #4d3c31;
+  --color-primary-950: #2f2420;
 
+  /* Accent */
   --color-accent-light: #ffffff;
   --color-accent-dark: #000000;
 
-  --color-surface-light: rgba(255, 255, 255, 0.7);
-  --color-surface-dark: rgba(0, 0, 0, 0.7);
+  /* Glass */
+  --color-surface-light: rgba(255, 248, 240, 0.7);
+  --color-surface-dark: rgba(15, 15, 20, 0.7);
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-serif: "Playfair Display", serif;
-}
 
-@layer utilities {
-  .glass {
-    @apply bg-surface-light dark:bg-surface-dark backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg;
-  }
-
-  .text-glow {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  }
+  /* Semantic Theme Mappings for Tailwind */
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-border: var(--border);
 }
 
 @layer base {
   :root {
-    --background: #fafafa;
-    --foreground: #0f1115;
+    /*  BACKGROUND */
+    --background: #f8f5f2;
+
+    /*  TEXT SYSTEM (LIGHT MODE) */
+    --text-primary: #1a1a1a;     /* main headings */
+    --text-secondary: #5f5f5f;   /* descriptions */
+    --text-muted: #8a8a8a;       /* placeholders */
+    --text-inverse: #ffffff;     /* text on dark bg */
+
+    /* UI */
     --card: #ffffff;
-    --border: #eef0f2;
+    --border: #ece7e2;
   }
 
   .dark {
-    --background: #090a0f;
-    --foreground: #fcfcfd;
-    --card: #111218;
-    --border: #1a1c23;
+    --background: #0f0f14;
+
+    /*  TEXT SYSTEM (DARK MODE) */
+    --text-primary: #f5f5f5;
+    --text-secondary: #b5b5b5;
+    --text-muted: #7a7a7a;
+    --text-inverse: #0f0f14;
+
+    --card: #15161c;
+    --border: #22232b;
   }
 
   body {
     background-color: var(--background);
-    color: var(--foreground);
+    color: var(--text-primary);
     font-family: var(--font-sans);
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-surface-light dark:bg-surface-dark backdrop-blur-md border border-black/5 dark:border-white/10 shadow-lg;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+
+  /*  TEXT UTILITIES */
+  .text-primary {
+    color: var(--text-primary);
+  }
+
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .text-inverse {
+    color: var(--text-inverse);
   }
 }

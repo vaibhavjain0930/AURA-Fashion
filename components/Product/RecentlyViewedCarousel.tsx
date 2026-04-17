@@ -49,21 +49,21 @@ export default function RecentlyViewedCarousel() {
     if (!loading && products.length === 0) return null;
 
     return (
-        <div className="py-12 bg-white dark:bg-black">
+        <div className="py-12 bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <Typography variant="h5" fontWeight="bold" mb={4} className="uppercase tracking-widest font-serif">
+                <Typography variant="h5" fontWeight="bold" mb={4} className="uppercase tracking-widest font-serif text-primary">
                    Recently Viewed
                 </Typography>
                 
                 <div className="flex overflow-x-auto gap-6 pb-4 custom-scrollbar snap-x">
                     {loading ? (
                         Array.from({ length: 4 }).map((_, i) => (
-                           <div key={i} className="min-w-[240px] h-[360px] bg-gray-100 dark:bg-gray-900 animate-pulse rounded-lg snap-start" />
+                           <div key={i} className="min-w-[240px] h-[360px] bg-card animate-pulse rounded-lg snap-start" />
                         ))
                     ) : (
                         products.map(product => (
                             <Link href={`/product/${product.id}`} key={product.id} className="group min-w-[240px] max-w-[240px] snap-start">
-                                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-100 mb-3">
+                                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-card mb-3">
                                     <img 
                                         src={product.image} 
                                         alt={product.name} 
@@ -72,7 +72,7 @@ export default function RecentlyViewedCarousel() {
                                     <div className="absolute inset-x-0 bottom-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent">
                                         <Button 
                                             size="sm" 
-                                            className="w-full bg-white text-black text-xs"
+                                            className="w-full bg-card text-primary hover:bg-background text-xs border-none"
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 addItem({
@@ -91,8 +91,8 @@ export default function RecentlyViewedCarousel() {
                                         </Button>
                                     </div>
                                 </div>
-                                <h3 className="text-sm font-medium line-clamp-1">{product.name}</h3>
-                                <p className="text-sm font-semibold">${product.price.toFixed(2)}</p>
+                                <h3 className="text-sm font-medium line-clamp-1 text-primary">{product.name}</h3>
+                                <p className="text-sm font-semibold text-primary">${product.price.toFixed(2)}</p>
                             </Link>
                         ))
                     )}

@@ -45,29 +45,29 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
       {/* Hero Section */}
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         {/* Background Video/Image placeholder */}
-        <div className="absolute inset-0 z-0 bg-gray-950">
+        <div className="absolute inset-0 z-0 bg-background">
           <img 
             src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" 
             alt="Hero Fashion" 
-            className="w-full h-full object-cover opacity-60 mix-blend-overlay"
+            className="w-full h-full object-cover opacity-60 mix-blend-multiply dark:mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent"></div>
         </div>
 
         <motion.div 
-          className="relative z-10 text-center px-4 max-w-4xl mx-auto text-white mt-16"
+          className="relative z-10 text-center px-4 max-w-4xl mx-auto text-primary mt-16"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.span variants={itemVariants} className="uppercase tracking-[0.3em] text-sm md:text-md mb-6 block text-white/90 drop-shadow-md">
+          <motion.span variants={itemVariants} className="uppercase tracking-[0.3em] text-sm md:text-md mb-6 block text-primary/80 drop-shadow-sm">
             Welcome to the future of fashion
           </motion.span>
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-6 leading-tight drop-shadow-lg">
+          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold mb-6 leading-tight drop-shadow-sm text-primary">
             Redefine Your <br/>
             <span className="italic font-light">Style</span>
           </motion.h1>
-          <motion.p variants={itemVariants} className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light">
+          <motion.p variants={itemVariants} className="text-lg md:text-xl text-secondary mb-10 max-w-2xl mx-auto font-light">
             Experience our premium collection with our ground-breaking AI virtual try-on. See it on yourself before you buy.
           </motion.p>
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -86,8 +86,8 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
       {/* Categories Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif text-gray-900 font-bold mb-4">Discover Categories</h2>
-          <div className="h-[1px] w-24 bg-black dark:bg-white mx-auto"></div>
+          <h2 className="text-3xl md:text-4xl font-serif text-primary font-bold mb-4">Discover Categories</h2>
+          <div className="h-[1px] w-24 bg-[var(--text-primary)] mx-auto"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -120,14 +120,14 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
       </section>
       
       {/* Trending Section */}
-      <section className="py-24 bg-gray-50 dark:bg-card">
+      <section className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl text-gray-900 font-serif font-bold">Trending Now</h2>
-              <p className="text-gray-500 mt-2">Curated essentials for your wardrobe</p>
+              <h2 className="text-3xl md:text-4xl text-primary font-serif font-bold">Trending Now</h2>
+              <p className="text-secondary mt-2">Curated essentials for your wardrobe</p>
             </div>
-            <Link href="/women/clothing" className="text-sm font-semibold uppercase tracking-widest border-b border-black dark:border-white pb-1 text-gray-500 transition-colors hidden sm:block">
+            <Link href="/women/clothing" className="text-sm font-semibold uppercase tracking-widest border-b border-[var(--text-primary)] pb-1 text-secondary transition-colors hidden sm:block">
               View All
             </Link>
           </div>
@@ -142,7 +142,7 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="group cursor-pointer"
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-200 mb-4">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-card mb-4">
                   <img 
                     src={item.image} 
                     alt={item.name} 
@@ -150,16 +150,16 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
                   />
                   <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/50 to-transparent">
                     <Link href={`/product/${item.id}`}>
-                      <Button size="sm" className="w-full bg-white text-black bg-gray-100 dark:bg-black dark:text-white dark:hover:bg-gray-900 border-none">Quick Add</Button>
+                      <Button size="sm" className="w-full bg-card text-primary hover:bg-background border-none">Quick Add</Button>
                     </Link>
                   </div>
                 </div>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-sm font-medium text-gray-500 line-clamp-1 pr-2">{item.name}</h3>
-                    <p className="text-xs text-gray-500 mt-1">{item.color}</p>
+                    <h3 className="text-sm font-medium text-primary line-clamp-1 pr-2">{item.name}</h3>
+                    <p className="text-xs text-secondary mt-1">{item.color}</p>
                   </div>
-                  <span className="text-sm font-semibold">${item.price.toFixed(2)}</span>
+                  <span className="text-sm font-semibold text-primary">${item.price.toFixed(2)}</span>
                 </div>
               </motion.div>
             ))}
@@ -172,7 +172,7 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
       <RecommendedForYouSection />
 
       {/* AI Promo Section */}
-      <section className="py-32 relative overflow-hidden bg-white dark:bg-[#090a0f] text-black dark:text-white border-y border-gray-100 dark:border-white/5">
+      <section className="py-32 relative overflow-hidden bg-background text-primary border-y border-border">
         <div className="absolute inset-0 z-0 opacity-80">
           <div className="absolute inset-0 bg-gradient-to-br from-[#4285F4]/10 via-[#EA4335]/5 to-[#34A853]/10"></div>
           <div className="absolute -top-[30%] -right-[10%] w-[60%] h-[160%] bg-gradient-to-b from-[#4285F4]/20 via-[#EA4335]/20 to-[#FBBC05]/20 blur-[120px] rounded-full mix-blend-multiply dark:mix-blend-screen pointer-events-none"></div>
@@ -193,12 +193,12 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
               Try It On <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4285F4] via-[#EA4335] to-[#FBBC05]">Virtually</span>
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 font-light mb-10 max-w-md">
+            <p className="text-lg text-secondary font-light mb-10 max-w-md">
               Upload your photo and see how our clothes look on you instantly. Powered by advanced AI vision technology.
             </p>
             <div className="flex gap-4">
               <Link href="/try-on">
-                 <Button className="bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200">Try AI Assistant</Button>
+                 <Button className="bg-[var(--text-primary)] text-inverse hover:opacity-90 transition-opacity">Try AI Assistant</Button>
               </Link>
             </div>
           </motion.div>
@@ -224,15 +224,15 @@ export default function HomeClient({ categories, trendingItems }: HomeClientProp
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-24 bg-gray-50 dark:bg-[#111218] text-center px-4">
+      <section className="py-24 bg-card text-center px-4">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-serif font-bold mb-4">Join the List</h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 font-light">Sign up to get 10% off your first order and early access to new collections.</p>
+          <h2 className="text-3xl font-serif font-bold mb-4 text-primary">Join the List</h2>
+          <p className="text-secondary mb-8 font-light">Sign up to get 10% off your first order and early access to new collections.</p>
           <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <input 
               type="email" 
               placeholder="YOUR EMAIL" 
-              className="flex-1 bg-transparent border-b border-gray-300 dark:border-gray-700 py-3 px-2 outline-none focus:border-black dark:focus:border-white transition-colors text-sm font-medium uppercase tracking-widest placeholder:text-gray-400"
+              className="flex-1 bg-transparent border-b border-border py-3 px-2 outline-none focus:border-[var(--text-primary)] transition-colors text-sm font-medium uppercase tracking-widest placeholder:text-muted text-primary"
               required
             />
             <Button type="submit" variant="primary" className="rounded-none sm:rounded-full">Subscribe</Button>

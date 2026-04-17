@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "@/components/UI/Button";
 import Link from "next/link";
 import { Filter, SlidersHorizontal, Wand2, X } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import toast from "react-hot-toast";
+import Skeleton from "@mui/material/Skeleton";
+import Box from "@mui/material/Box";
 
 export interface Product {
   id: string;
@@ -41,6 +43,8 @@ export default function CategoryTemplate({ title, description, products }: Categ
   const isClothing = title.toLowerCase().includes("clothing");
   const isFootwear = title.toLowerCase().includes("footwear");
 
+  const [isFiltering, setIsFiltering] = useState(false);
+
   // Derive filtered products
   const filteredProducts = products.filter((p) => {
     // Size match (assume p.size is an array of available sizes strings)
@@ -59,6 +63,15 @@ export default function CategoryTemplate({ title, description, products }: Categ
 
     return true;
   });
+
+  // Effect to handle filter changes and show loading state
+  useEffect(() => {
+    setIsFiltering(true);
+    const timer = setTimeout(() => {
+      setIsFiltering(false);
+    }, 600); // 600ms loading skeleton simulation
+    return () => clearTimeout(timer);
+  }, [sizeFilter, priceFilter, categoryFilter]);
 
   const handleQuickAdd = (product: Product) => {
     cart.addItem({
@@ -197,7 +210,7 @@ export default function CategoryTemplate({ title, description, products }: Categ
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl text-gray-900 font-serif font-bold mb-4 uppercase tracking-wider"
+            className="text-4xl md:text-5xl text-primary font-serif font-bold mb-4 uppercase tracking-wider"
           >
             {title}
           </motion.h1>
@@ -210,7 +223,7 @@ export default function CategoryTemplate({ title, description, products }: Categ
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-500 max-w-2xl mx-auto font-light"
+            className="text-secondary max-w-2xl mx-auto font-light"
           >
             {description}
           </motion.p>
@@ -228,9 +241,9 @@ export default function CategoryTemplate({ title, description, products }: Categ
           {/* Sidebar / Filters (Desktop) */}
           <div className="hidden lg:block w-64 flex-shrink-0">
             <div className="sticky top-24">
-              <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-gray-800">
-                <h3 className="text-sm font-semibold uppercase tracking-widest text-gray-900">Filters</h3>
-                <SlidersHorizontal className="w-4 h-4 text-gray-400" />
+              <div className="flex justify-between items-center mb-6 pb-4 border-b border-border">
+                <h3 className="text-sm font-semibold uppercase tracking-widest text-primary">Filters</h3>
+                <SlidersHorizontal className="w-4 h-4 text-muted" />
               </div>
 
               {/* Filter Categories */}
@@ -240,10 +253,42 @@ export default function CategoryTemplate({ title, description, products }: Categ
 
           {/* Product Grid */}
           <div className="flex-1">
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 lg:gap-x-8">
-              {filteredProducts.map((product, i) => {
-                const isItemClothing = product.subcategory?.toLowerCase() === 'clothing' || isClothing || (!isFootwear && !isAccessories);
-                return (
+            {isFiltering ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 lg:gap-x-8">
+                {Array.from(new Array(8)).map((_, i) => (
+                  <div key={i} className="group relative">
+                    <Skeleton variant="rectangular" className="aspect-[3/4] w-full rounded-lg mb-4" />
+                    <Skeleton variant="text" width="60%" className="mt-2 mb-1" />
+                    <Skeleton variant="text" width="40%" />
+                  </div>
+                ))}
+              </div>
+            ) : filteredProducts.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center bg-background rounded-2xl border border-border">
+                <Box className="mb-4 p-4 bg-card rounded-full shadow-sm">
+                  <Filter className="w-8 h-8 text-muted" />
+                </Box>
+                <h3 className="text-xl font-medium text-primary mb-2">No products found</h3>
+                <p className="text-secondary mb-6 max-w-md mx-auto">
+                  We couldn't find any products matching your selected filters. Try adjusting your search criteria.
+                </p>
+                <Button 
+                  onClick={() => {
+                    setSizeFilter(null);
+                    setPriceFilter(null);
+                    setCategoryFilter(null);
+                  }}
+                  variant="outline"
+                  className="bg-white hover:bg-gray-50 dark:bg-black dark:text-white dark:border-gray-700 dark:hover:bg-gray-900 border-black text-black hover:text-black transition-all duration-300 shadow-sm"
+                >
+                  Clear all filters
+                </Button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10 sm:gap-x-6 lg:gap-x-8">
+                {filteredProducts.map((product, i) => {
+                  const isItemClothing = product.subcategory?.toLowerCase() === 'clothing' || isClothing || (!isFootwear && !isAccessories);
+                  return (
                 <motion.div
                   key={product.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -252,7 +297,7 @@ export default function CategoryTemplate({ title, description, products }: Categ
                   className="group relative"
                 >
                   <Link href={`/product/${product.id}`}>
-                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-900 mb-4 cursor-pointer">
+                    <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-card mb-4 cursor-pointer">
                       <img
                         src={product.image}
                         alt={product.name}
@@ -279,7 +324,7 @@ export default function CategoryTemplate({ title, description, products }: Categ
                       <div className="absolute inset-x-0 bottom-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/60 to-transparent">
                         <Button
                           size="sm"
-                          className="w-full bg-white text-black hover:bg-gray-100 border-none transition-transform translate-y-4 group-hover:translate-y-0 duration-300"
+                          className="w-full bg-card text-primary hover:bg-background border-none transition-transform translate-y-4 group-hover:translate-y-0 duration-300"
                           onClick={(e) => {
                             e.preventDefault();
                             handleQuickAdd(product);
@@ -293,17 +338,17 @@ export default function CategoryTemplate({ title, description, products }: Categ
                   <div className="flex flex-col mt-2 space-y-1">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-sm font-medium text-gray-900  line-clamp-1 drop-shadow-sm">
+                        <h3 className="text-sm font-medium text-primary line-clamp-1 drop-shadow-sm">
                           <Link href={`/product/${product.id}`}>{product.name}</Link>
                         </h3>
-                        <p className="text-xs text-gray-500 capitalize drop-shadow-sm">{product.subcategory || product.color}</p>
+                        <p className="text-xs text-secondary capitalize drop-shadow-sm">{product.subcategory || product.color}</p>
                       </div>
-                      <p className="text-sm font-semibold text-gray-700">${product.price.toFixed(2)}</p>
+                      <p className="text-sm font-semibold text-primary">${product.price.toFixed(2)}</p>
                     </div>
 
                     {/* Rating Display */}
                     {product.rating && (
-                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-1 text-xs text-secondary">
                         <div className="flex items-center text-yellow-500">
                           {'★'.repeat(Math.round(Number(product.rating)))}
                           <span className="text-gray-300">{'★'.repeat(5 - Math.round(Number(product.rating)))}</span>
@@ -329,7 +374,7 @@ export default function CategoryTemplate({ title, description, products }: Categ
                           >
                             <Button
                               size="sm"
-                              className="w-full h-10 text-xs text-gray-900 bg-white hover:bg-white hover:shadow-none hover:text-gray-900 transition-none"
+                              className="w-full h-10 text-xs text-primary bg-card hover:bg-card hover:shadow-none transition-none"
                             >
                               Details
                             </Button>
@@ -339,7 +384,8 @@ export default function CategoryTemplate({ title, description, products }: Categ
                   </div>
                 </motion.div>
               )})}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -360,19 +406,19 @@ export default function CategoryTemplate({ title, description, products }: Categ
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.3 }}
-              className="fixed inset-y-0 right-0 w-4/5 max-w-sm bg-white z-50 p-6 overflow-y-auto lg:hidden shadow-2xl"
+              className="fixed inset-y-0 right-0 w-4/5 max-w-sm bg-card z-50 p-6 overflow-y-auto lg:hidden shadow-2xl"
             >
-              <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200">
-                <h3 className="text-lg font-semibold uppercase tracking-widest text-gray-900">Filters</h3>
+              <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">
+                <h3 className="text-lg font-semibold uppercase tracking-widest text-primary">Filters</h3>
                 <button onClick={() => setIsFilterOpen(false)} className="p-2 -mr-2">
-                  <X className="w-5 h-5 text-gray-500 hover:text-black transition-colors" />
+                  <X className="w-5 h-5 text-secondary hover:text-primary transition-colors" />
                 </button>
               </div>
               
               {renderFilters()}
               
-              <div className="mt-10 pt-6 border-t border-gray-200">
-                <Button className="w-full text-white bg-black hover:bg-gray-800 transition-colors" onClick={() => setIsFilterOpen(false)}>
+              <div className="mt-10 pt-6 border-t border-border">
+                <Button className="w-full text-inverse bg-[var(--text-primary)] hover:opacity-90 transition-colors" onClick={() => setIsFilterOpen(false)}>
                   Show {filteredProducts.length} Results
                 </Button>
               </div>
